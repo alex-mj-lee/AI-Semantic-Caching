@@ -1,8 +1,8 @@
 
 FROM node:20-bookworm
-WORKDIR /repo
-COPY ../../package.json ../../package-lock.json* ../../pnpm-lock.yaml* ../../yarn.lock* ./
+WORKDIR /app
 COPY ./package.json ./
+COPY ./package-lock.json* ./
 COPY ./tsconfig.json ./
 COPY ./next.config.js ./
 COPY ./tailwind.config.ts ./

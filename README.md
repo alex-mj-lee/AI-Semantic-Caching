@@ -2,6 +2,11 @@
 
 A semantic caching system that reduces LLM API costs by intelligently caching and retrieving similar queries using vector embeddings.
 
+# Loom Video
+
+Part 1:https://www.loom.com/share/2c70d7b5ef534c5aa34af51061413e95
+Part 2:https://www.loom.com/share/4070421bd6774340973586bcb1d1cc9b
+
 ## Architecture
 
 **Microservices Design:**
@@ -124,5 +129,3 @@ The system uses a hybrid approach combining keyword detection and semantic analy
 - **Dynamic TTL:** ML-based expiration prediction
 - **Compression:** Reduce embedding storage overhead
 - **Clustering:** Group similar queries for batch processing
-
-# AI-Semantic-Caching

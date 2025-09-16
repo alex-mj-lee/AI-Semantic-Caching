@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  api:
+    build: ./apps/api
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_EMBEDDING_MODEL=${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
+      - OPENAI_CHAT_MODEL=${OPENAI_CHAT_MODEL:-gpt-4o-mini}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - CACHE_THRESHOLD=0.7
+      - CACHE_TTL_DEFAULT=${CACHE_TTL_DEFAULT:-604800}
+      - CACHE_TTL_FRESH=${CACHE_TTL_FRESH:-10800}
+    depends_on:
+      - redis
+    ports:
+      - "4000:4000"
+  web:
+    build: ./apps/web
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+  redis:
+    image: redis/redis-stack:7.2.0-v13
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

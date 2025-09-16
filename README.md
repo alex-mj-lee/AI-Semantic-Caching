@@ -56,7 +56,7 @@ The choice of embedding model is critical for both performance and cost-effectiv
 - **Cosine Similarity Threshold:** 0.70 (configurable)
 
   - Chosen through empirical testing to balance cache hit rate vs accuracy
-  - Values above 0.85 indicate high semantic similarity
+  - Values above 0.70 indicate high semantic similarity
   - Lower thresholds increase cache hits but risk serving irrelevant results
 
 - **Content-Aware TTL Strategy:**
@@ -124,4 +124,5 @@ The system uses a hybrid approach combining keyword detection and semantic analy
 - **Dynamic TTL:** ML-based expiration prediction
 - **Compression:** Reduce embedding storage overhead
 - **Clustering:** Group similar queries for batch processing
+
 # AI-Semantic-Caching

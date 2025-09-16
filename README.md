@@ -4,8 +4,9 @@ A semantic caching system that reduces LLM API costs by intelligently caching an
 
 # Loom Video
 
-Part 1:https://www.loom.com/share/2c70d7b5ef534c5aa34af51061413e95
-Part 2:https://www.loom.com/share/4070421bd6774340973586bcb1d1cc9b
+Part 1: https://www.loom.com/share/2c70d7b5ef534c5aa34af51061413e95
+
+Part 2: https://www.loom.com/share/4070421bd6774340973586bcb1d1cc9b
 
 ## Architecture
 

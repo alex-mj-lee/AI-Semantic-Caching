@@ -8,6 +8,7 @@ COPY ./next.config.js ./
 COPY ./tailwind.config.ts ./
 COPY ./postcss.config.js ./
 COPY ./app ./app
+COPY ./components ./components
 RUN npm i -g npm@latest && npm install && npm run build
 EXPOSE 3000
 CMD ["npm","start"]

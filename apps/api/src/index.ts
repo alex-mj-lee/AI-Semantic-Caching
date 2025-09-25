@@ -5,6 +5,8 @@ import {
   embed,
   answer,
   categorize,
+  categorizeWithConfidence,
+  analyzeQuery,
   putCache,
   searchSimilar,
   scoreToSimilarity,
@@ -42,6 +44,21 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
+// Query analysis endpoint for debugging and monitoring
+app.post("/analyze", (req: Request, res: Response) => {
+  try {
+    const { query } = req.body;
+    if (!query || typeof query !== "string") {
+      return res.status(400).json({ error: "Query is required" });
+    }
+
+    const analysis = analyzeQuery(query);
+    res.json(analysis);
+  } catch (e: any) {
+    res.status(400).json({ error: String(e?.message || e) });
+  }
+});
+
 const Body = z.object({
   query: z.string().min(1),
   forceRefresh: z.boolean().optional().default(false),
@@ -50,7 +67,11 @@ const Body = z.object({
 app.post("/query", async (req: Request, res: Response) => {
   try {
     const { query, forceRefresh } = Body.parse(req.body);
-    const category = categorize(query);
+
+    // Enhanced categorization with confidence and reasoning
+    const categorizationResult = categorizeWithConfidence(query);
+    const category = categorizationResult.category;
+
     const e = await embed(query);
     if (!forceRefresh) {
       const matches = await searchSimilar(e, 3);
@@ -67,6 +88,10 @@ app.post("/query", async (req: Request, res: Response) => {
               matchScore: sim,
               matchedQuery: best.query,
               category,
+              categorization: {
+                confidence: categorizationResult.confidence,
+                reasoning: categorizationResult.reasoning,
+              },
             },
           });
         }
@@ -91,6 +116,10 @@ app.post("/query", async (req: Request, res: Response) => {
         source: "llm",
         category,
         threshold: env.CACHE_THRESHOLD,
+        categorization: {
+          confidence: categorizationResult.confidence,
+          reasoning: categorizationResult.reasoning,
+        },
       },
     });
   } catch (e: any) {
